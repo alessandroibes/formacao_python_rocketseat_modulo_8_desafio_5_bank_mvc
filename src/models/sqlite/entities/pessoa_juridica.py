@@ -11,7 +11,7 @@ class PessoaJuridica(Base):
     idade = Column(BIGINT, nullable=False)
     nome_fantasia = Column(String, nullable=False)
     celular = Column(String, nullable=False)
-    email = Column(String, nullable=False)
+    email_corporativo = Column(String, nullable=False)
     categoria = Column(String, nullable=False)
     saldo = Column(REAL, nullable=False)
 
