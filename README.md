@@ -24,3 +24,7 @@ Criação de um sistema bancário com clientes:
 ## Regras de negócio
 
 O método “sacar dinheiro” deve possuir um limite máximo menor em Pessoa física do que para pessoa jurídica
+
+## Banco de Dados
+
+Há um schema (script) para o banco de dados na pasta ``/init/schema.sql``. Criar um arquivo ``storage.db`` (SQLite) na raiz do projeto e executar o script neste banco criado
