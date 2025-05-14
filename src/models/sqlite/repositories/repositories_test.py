@@ -12,3 +12,19 @@ def test_list_pessoas_fisicas():
     response = repo.list_pessoas_fisicas()
     print()
     print(response)
+
+
+@pytest.mark.skip(reason="database integration")
+def test_criar_pessoa_fisica():
+    pessoa_fisica = {
+        "renda_mensal": 12000.00,
+        "idade": 42,
+        "nome_completo": "José Firmino",
+        "celular": "1234-4321",
+        "email": "josefi@exemplo.com",
+        "categoria": "Categoria D",
+        "saldo": 45000.00
+    }
+
+    repo = PessoaFisicaRepository(db_connection_handler)
+    repo.criar_pessoa_fisica(**pessoa_fisica)
