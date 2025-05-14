@@ -1,4 +1,5 @@
 from unittest import mock
+import pytest
 from mock_alchemy.mocking import UnifiedAlchemyMagicMock
 
 from src.models.sqlite.entities.pessoa_juridica import PessoaJuridica
@@ -40,6 +41,19 @@ class MockConnection:
     def __enter__(self): return self
     def __exit__(self, exc_type, exc_val, exc_tb): pass
 
+
+class MockConnectionWithError:
+    def __init__(self) -> None:
+        self.session = UnifiedAlchemyMagicMock()
+        self.session.add.side_effect = self.__raise_exception
+
+    def __raise_exception(self, *args, **kwargs):
+        raise Exception("Generic error")
+
+    def __enter__(self): return self
+    def __exit__(self, exc_type, exc_val, exc_tb): pass
+
+
 def test_list_pessoas_juridicas():
     mock_connection = MockConnection()
     repo = PessoaJuridicaRepository(mock_connection)
@@ -59,3 +73,45 @@ def test_list_pessoas_juridicas():
     assert response[1].categoria == "Categoria B"
     assert response[0].saldo == 50000.00
     assert response[1].saldo == 70000.00
+
+
+def test_criar_pessoa_juridica():
+    pessoa_juridica = {
+        "faturamento": 85000.00,
+        "idade": 7,
+        "nome_fantasia": "Empresa CBA",
+        "celular": "1234-9999",
+        "email_corporativo": "cba@exemplo.com",
+        "categoria": "Categoria E",
+        "saldo": 125000.00
+    }
+
+    mock_connection = MockConnection()
+    repo = PessoaJuridicaRepository(mock_connection)
+    repo.criar_pessoa_juridica(**pessoa_juridica)
+
+    mock_connection.session.add.assert_called_once()
+    mock_connection.session.commit.assert_called_once()
+    mock_connection.session.rollback.assert_not_called()
+
+
+def test_criar_pessoa_juridica_error():
+    pessoa_juridica = {
+        "faturamento": mock.ANY,
+        "idade": mock.ANY,
+        "nome_fantasia": mock.ANY,
+        "celular": mock.ANY,
+        "email_corporativo": mock.ANY,
+        "categoria": mock.ANY,
+        "saldo": mock.ANY
+    }
+
+    mock_connection = MockConnectionWithError()
+    repo = PessoaJuridicaRepository(mock_connection)
+
+    with pytest.raises(Exception):
+        repo.criar_pessoa_juridica(**pessoa_juridica)
+
+    mock_connection.session.add.assert_called_once()
+    mock_connection.session.rollback.assert_called_once()
+    mock_connection.session.commit.assert_not_called()
