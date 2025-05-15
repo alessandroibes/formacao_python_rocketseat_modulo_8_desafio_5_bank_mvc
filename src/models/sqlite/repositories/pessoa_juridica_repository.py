@@ -4,10 +4,12 @@ from sqlalchemy import update
 from sqlalchemy.orm.exc import NoResultFound
 
 from src.models.sqlite.entities.pessoa_juridica import PessoaJuridica
-from src.models.sqlite.interfaces.cliente_repository import ClienteRepositoryInterface
+from src.models.sqlite.interfaces.pessoa_juridica_repository import (
+    PessoaJuridicaRepositoryInterface
+)
 
 
-class PessoaJuridicaRepository(ClienteRepositoryInterface):
+class PessoaJuridicaRepository(PessoaJuridicaRepositoryInterface):
     def __init__(self, db_connection) -> None:
         self.__db_connection = db_connection
 

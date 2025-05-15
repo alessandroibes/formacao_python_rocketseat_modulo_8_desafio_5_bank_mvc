@@ -4,10 +4,10 @@ from sqlalchemy import update
 from sqlalchemy.orm.exc import NoResultFound
 
 from src.models.sqlite.entities.pessoa_fisica import PessoaFisica
-from src.models.sqlite.interfaces.cliente_repository import ClienteRepositoryInterface
+from src.models.sqlite.interfaces.pessoa_fisica_repository import PessoaFisicaRepositoryInterface
 
 
-class PessoaFisicaRepository(ClienteRepositoryInterface):
+class PessoaFisicaRepository(PessoaFisicaRepositoryInterface):
     def __init__(self, db_connection) -> None:
         self.__db_connection = db_connection
 
@@ -43,7 +43,7 @@ class PessoaFisicaRepository(ClienteRepositoryInterface):
             email: str,
             categoria: str,
             saldo: float,
-        ) -> None:
+    ) -> None:
         with self.__db_connection as database:
             try:
                 pessoa_fisica = PessoaFisica(
