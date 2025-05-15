@@ -48,5 +48,5 @@ class PessoaJuridicaRepository(ClienteRepositoryInterface):
     def sacar_dinheiro(self, quantia):
         raise NotImplementedError
 
-    def realizar_extrato(self, pessoa):
+    def realizar_extrato(self, id_pessoa: int):
         raise NotImplementedError

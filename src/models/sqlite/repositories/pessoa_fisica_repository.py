@@ -48,5 +48,16 @@ class PessoaFisicaRepository(ClienteRepositoryInterface):
     def sacar_dinheiro(self, quantia):
         raise NotImplementedError
 
-    def realizar_extrato(self, pessoa):
-        raise NotImplementedError
+    def realizar_extrato(self, id_pessoa: int):
+        with self.__db_connection as database:
+            pessoa_fisica = (database.session
+                             .query(PessoaFisica)
+                             .filter(PessoaFisica.id == id_pessoa)
+                             .with_entities(
+                                 PessoaFisica.nome_completo,
+                                 PessoaFisica.saldo,
+                                 PessoaFisica.categoria
+                             )
+                             .first())
+
+            return pessoa_fisica

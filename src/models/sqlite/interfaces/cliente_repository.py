@@ -8,5 +8,5 @@ class ClienteRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    def realizar_extrato(self, pessoa):
+    def realizar_extrato(self, id_pessoa: int):
         pass
