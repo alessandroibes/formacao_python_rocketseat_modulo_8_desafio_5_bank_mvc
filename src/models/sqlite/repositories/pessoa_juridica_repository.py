@@ -49,4 +49,15 @@ class PessoaJuridicaRepository(ClienteRepositoryInterface):
         raise NotImplementedError
 
     def realizar_extrato(self, id_pessoa: int):
-        raise NotImplementedError
+        with self.__db_connection as database:
+            pessoa_juridica = (database.session
+                             .query(PessoaJuridica)
+                             .filter(PessoaJuridica.id == id_pessoa)
+                             .with_entities(
+                                 PessoaJuridica.nome_fantasia,
+                                 PessoaJuridica.saldo,
+                                 PessoaJuridica.categoria
+                             )
+                             .first())
+
+            return pessoa_juridica

@@ -115,3 +115,16 @@ def test_criar_pessoa_juridica_error():
     mock_connection.session.add.assert_called_once()
     mock_connection.session.rollback.assert_called_once()
     mock_connection.session.commit.assert_not_called()
+
+
+def test_realizar_extrato():
+    mock_connection = MockConnection()
+    repo = PessoaJuridicaRepository(mock_connection)
+    repo.realizar_extrato(1)
+
+    mock_connection.session.filter.assert_called_once_with(PessoaJuridica.id == 1)
+    mock_connection.session.with_entities.assert_called_once_with(
+        PessoaJuridica.nome_fantasia,
+        PessoaJuridica.saldo,
+        PessoaJuridica.categoria
+    )

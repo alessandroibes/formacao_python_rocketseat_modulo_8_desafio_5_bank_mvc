@@ -32,7 +32,7 @@ def test_criar_pessoa_fisica():
 
 
 @pytest.mark.skip(reason="database integration")
-def test_realizar_extrato():
+def test_realizar_extrato_pessoa_fisica():
     repo = PessoaFisicaRepository(db_connection_handler)
     response = repo.realizar_extrato(1)
     print()
@@ -61,3 +61,11 @@ def test_criar_pessoa_juridica():
 
     repo = PessoaJuridicaRepository(db_connection_handler)
     repo.criar_pessoa_juridica(**pessoa_juridica)
+
+
+@pytest.mark.skip(reason="database integration")
+def test_realizar_extrato_pessoa_juridica():
+    repo = PessoaJuridicaRepository(db_connection_handler)
+    response = repo.realizar_extrato(1)
+    print()
+    print(response)
