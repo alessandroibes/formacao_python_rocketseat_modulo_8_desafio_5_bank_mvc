@@ -34,6 +34,22 @@ class PessoaJuridicaController:
         formated_response = self.__format_response(pessoa_juridica)
         return formated_response
 
+    def sacar_dinheiro(self, quantia, id_pessoa: int):
+        resultado = self.__pessoa_juridica_repository.sacar_dinheiro(quantia, id_pessoa)
+        return resultado
+
+    def realizar_extrato(self, id_pessoa: int):
+        extrato = self.__pessoa_juridica_repository.realizar_extrato(id_pessoa)
+        return extrato
+
+    def consultar_saldo(self, id_pessoa: int):
+        pessoa_juridica = self.__pessoa_juridica_repository.buscar_pessoa_juridica(id_pessoa)
+
+        if pessoa_juridica:
+            return pessoa_juridica.saldo
+
+        return 0
+
     def __validate_pessoa_juridica(self,
             nome_fantasia: str,
             faturamento: float,

@@ -32,6 +32,22 @@ class PessoaFisicaController:
         formated_response = self.__format_response(pessoa_fisica)
         return formated_response
 
+    def sacar_dinheiro(self, quantia, id_pessoa: int):
+        resultado = self.__pessoa_fisica_repository.sacar_dinheiro(quantia, id_pessoa)
+        return resultado
+
+    def realizar_extrato(self, id_pessoa: int):
+        extrato = self.__pessoa_fisica_repository.realizar_extrato(id_pessoa)
+        return extrato
+
+    def consultar_saldo(self, id_pessoa: int):
+        pessoa_fisica = self.__pessoa_fisica_repository.buscar_pessoa_fisica(id_pessoa)
+
+        if pessoa_fisica:
+            return pessoa_fisica.saldo
+
+        return 0
+
     def __validate_pessoa_fisica(self,
             nome_completo: str,
             renda_mensal: float,

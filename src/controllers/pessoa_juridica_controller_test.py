@@ -2,6 +2,7 @@
 import copy
 import pytest
 
+from src.models.sqlite.entities.pessoa_juridica import PessoaJuridica
 from .pessoa_juridica_controller import PessoaJuridicaController
 
 
@@ -19,6 +20,18 @@ pessoa_juridica = {
 class MockPessoaJuridicaRepository():
     def criar_pessoa_juridica(self, *args, **kwargs) -> None:
         return None
+
+    def sacar_dinheiro(self, quantia, id_pessoa: int):
+        novo_saldo = pessoa_juridica["saldo"] - quantia
+        return f"Saque de R$ {quantia} realizado com sucesso. Saldo restante: R$ {novo_saldo}"
+
+    def realizar_extrato(self, id_pessoa: int):
+        return PessoaJuridica(
+            nome_fantasia=pessoa_juridica["nome_fantasia"],
+            idade=pessoa_juridica["idade"],
+            saldo=pessoa_juridica["saldo"],
+            categoria=pessoa_juridica["categoria"]
+        )
 
 
 def test_criar():
@@ -64,3 +77,17 @@ def test_criar_com_saldo_invalido():
         controller.criar(copia_pessoa_juridica)
 
     assert str(error.value) == "O saldo não pode ser negativo."
+
+
+def test_sacar_dinheiro():
+    controller = PessoaJuridicaController(MockPessoaJuridicaRepository())
+    resultado = controller.sacar_dinheiro(1000.0, 1)
+
+    assert resultado == "Saque de R$ 1000.0 realizado com sucesso. Saldo restante: R$ 249000.0"
+
+
+def test_realizar_extrato():
+    controller = PessoaJuridicaController(MockPessoaJuridicaRepository())
+    extrato = controller.realizar_extrato(1)
+
+    assert str(extrato) == "Nome Fantasia: Empresa Teste, Idade: 5, Saldo: 250000.0"
