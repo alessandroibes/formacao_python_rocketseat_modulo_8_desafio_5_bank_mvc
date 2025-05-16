@@ -15,5 +15,17 @@ class PessoaFisica(Base):
     categoria = Column(String, nullable=False)
     saldo = Column(REAL, nullable=False)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Nome: {self.nome_completo}, Idade: {self.idade}, Saldo: {self.saldo}"
+
+    def to_dict(self) -> dict:
+        return {
+            "id" : self.id,
+            "renda_mensal" : self.renda_mensal,
+            "idade" : self.idade,
+            "nome_completo" : self.nome_completo,
+            "celular" : self.celular,
+            "email" : self.email,
+            "categoria" : self.categoria,
+            "saldo" : self.saldo
+        }

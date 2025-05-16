@@ -15,4 +15,7 @@ class ListarPessoasFisicasController(ListarPessoasFisicasControllerInterface):
     def listar_pessoas_fisicas(self) -> List[dict]:
         pessoas_fisicas = self.__pessoa_fisica_repository.list_pessoas_fisicas()
 
+        if pessoas_fisicas:
+            return [pessoa_fisica.to_dict() for pessoa_fisica in pessoas_fisicas]
+
         return pessoas_fisicas

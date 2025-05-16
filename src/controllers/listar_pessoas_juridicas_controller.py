@@ -15,4 +15,7 @@ class ListarPessoasJuridicasController(ListarPessoasJuridicasControllerInterface
     def listar_pessoas_juridicas(self) -> List[dict]:
         pessoas_juridicas = self.__pessoa_juridica_repository.list_pessoas_juridicas()
 
+        if pessoas_juridicas:
+            return [pessoa_juridica.to_dict() for pessoa_juridica in pessoas_juridicas]
+
         return pessoas_juridicas

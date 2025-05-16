@@ -15,5 +15,17 @@ class PessoaJuridica(Base):
     categoria = Column(String, nullable=False)
     saldo = Column(REAL, nullable=False)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Nome Fantasia: {self.nome_fantasia}, Idade: {self.idade}, Saldo: {self.saldo}"
+
+    def to_dict(self) -> dict:
+        return {
+            "id" : self.id,
+            "faturamento" : self.faturamento,
+            "idade" : self.idade,
+            "nome_fantasia" : self.nome_fantasia,
+            "celular" : self.celular,
+            "email_corporativo" : self.email_corporativo,
+            "categoria" : self.categoria,
+            "saldo" : self.saldo
+        }
