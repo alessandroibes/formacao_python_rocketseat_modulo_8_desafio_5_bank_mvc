@@ -3,9 +3,12 @@ from typing import List
 from src.models.sqlite.interfaces.pessoa_fisica_repository import (
     PessoaFisicaRepositoryInterface
 )
+from .interfaces.listar_pessoas_fisicas_controller import (
+    ListarPessoasFisicasControllerInterface
+)
 
 
-class ListarPessoasFisicasController():
+class ListarPessoasFisicasController(ListarPessoasFisicasControllerInterface):
     def __init__(self, pessoa_fisica_repository: PessoaFisicaRepositoryInterface):
         self.__pessoa_fisica_repository = pessoa_fisica_repository
 
