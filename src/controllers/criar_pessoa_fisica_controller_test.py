@@ -3,7 +3,7 @@ import copy
 import pytest
 
 from src.models.sqlite.entities.pessoa_fisica import PessoaFisica
-from .pessoa_fisica_controller import PessoaFisicaController
+from .criar_pessoa_fisica_controller import CriarPessoaFisicaController
 
 
 pessoa_fisica = {
@@ -35,7 +35,7 @@ class MockPessoaFisicaRepository():
 
 
 def test_criar():
-    controller = PessoaFisicaController(MockPessoaFisicaRepository())
+    controller = CriarPessoaFisicaController(MockPessoaFisicaRepository())
     response = controller.criar(pessoa_fisica)
 
     assert response["data"]["type"] == "Pessoa Física"
@@ -47,7 +47,7 @@ def test_criar_com_nome_completo_invalido():
     copia_pessoa_fisica = copy.deepcopy(pessoa_fisica)
     copia_pessoa_fisica["nome_completo"] = "NomeInválido123"
 
-    controller = PessoaFisicaController(MockPessoaFisicaRepository())
+    controller = CriarPessoaFisicaController(MockPessoaFisicaRepository())
 
     with pytest.raises(Exception) as error:
         controller.criar(copia_pessoa_fisica)
@@ -59,7 +59,7 @@ def test_criar_com_renda_mensal_invalida():
     copia_pessoa_fisica = copy.deepcopy(pessoa_fisica)
     copia_pessoa_fisica["renda_mensal"] = -1
 
-    controller = PessoaFisicaController(MockPessoaFisicaRepository())
+    controller = CriarPessoaFisicaController(MockPessoaFisicaRepository())
 
     with pytest.raises(Exception) as error:
         controller.criar(copia_pessoa_fisica)
@@ -71,23 +71,9 @@ def test_criar_com_saldo_invalido():
     copia_pessoa_fisica = copy.deepcopy(pessoa_fisica)
     copia_pessoa_fisica["saldo"] = -1
 
-    controller = PessoaFisicaController(MockPessoaFisicaRepository())
+    controller = CriarPessoaFisicaController(MockPessoaFisicaRepository())
 
     with pytest.raises(Exception) as error:
         controller.criar(copia_pessoa_fisica)
 
     assert str(error.value) == "O saldo não pode ser negativo."
-
-
-def test_sacar_dinheiro():
-    controller = PessoaFisicaController(MockPessoaFisicaRepository())
-    resultado = controller.sacar_dinheiro(1000.0, 1)
-
-    assert resultado == "Saque de R$ 1000.0 realizado com sucesso. Saldo restante: R$ 24000.0"
-
-
-def test_realizar_extrato():
-    controller = PessoaFisicaController(MockPessoaFisicaRepository())
-    extrato = controller.realizar_extrato(1)
-
-    assert str(extrato) == "Nome: Pessoa Física Teste, Idade: 22, Saldo: 25000.0"
