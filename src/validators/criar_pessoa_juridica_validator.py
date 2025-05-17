@@ -8,23 +8,23 @@ from src.errors.error_types.http_unprocessable_entity import HttpUnprocessableEn
 from src.views.http_types.http_request import HttpRequest
 
 
-def criar_pessoa_fisica_validator(http_request: HttpRequest) -> None:
+def criar_pessoa_juridica_validator(http_request: HttpRequest) -> None:
 
     class BodyData(BaseModel):
-        renda_mensal: float
+        faturamento: float
         idade: int
-        nome_completo: str
+        nome_fantasia: str
         celular: str
-        email: str
+        email_corporativo: str
         categoria: constr(min_length=2) # type: ignore
         saldo: float
 
-        @field_validator("nome_completo")
+        @field_validator("nome_fantasia")
         @classmethod
         def validar_nome(cls, v):
             pattern = re.compile(r'^([A-ZÁÉÍÓÚ][a-záéíóú]+(?: [A-ZÁÉÍÓÚ][a-záéíóú]+)+)$')
             if not pattern.match(v):
-                error_message = "Nome completo inválido."
+                error_message = "Nome fantasia inválido."
                 raise ValidationError.from_exception_data(
                     title="invalid_name",
                     line_errors=[
@@ -64,7 +64,7 @@ def criar_pessoa_fisica_validator(http_request: HttpRequest) -> None:
                 )
             return v
 
-        @field_validator('email')
+        @field_validator('email_corporativo')
         @classmethod
         def validar_email(cls, v):
             # Regex básica para e-mails válidos

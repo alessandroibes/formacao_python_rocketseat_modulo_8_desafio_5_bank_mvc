@@ -4,7 +4,7 @@ from src.controllers.listar_pessoas_juridicas_controller import ListarPessoasJur
 from src.views.listar_pessoas_juridicas_view import ListarPessoasJuridicasView
 
 
-def listar_pessoas_fisicas_composer():
+def listar_pessoas_juridicas_composer():
     model = PessoaJuridicaRepository(db_connection_handler)
     controller = ListarPessoasJuridicasController(model)
     view = ListarPessoasJuridicasView(controller)
