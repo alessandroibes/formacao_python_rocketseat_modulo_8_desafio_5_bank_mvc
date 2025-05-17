@@ -9,6 +9,9 @@ from src.main.composer.consultar_saldo_pessoa_juridica_composer import (
 from src.main.composer.realizar_extrato_pessoa_juridica_composer import (
     realizar_extrato_pessoa_juridica_composer
 )
+from src.main.composer.sacar_dinheiro_pessoa_juridica_composer import (
+    sacar_dinheiro_pessoa_juridica_composer
+)
 from src.views.http_types.http_request import HttpRequest
 
 
@@ -57,10 +60,24 @@ def consultar_saldo_pessoa_juridica(id_pessoa):
 
 
 @pessoa_juridica_route_bp.route("/pessoas_juridicas/<id_pessoa>/extrato", methods=["GET"])
-def realizar_extrato_pessoa_fisica(id_pessoa):
+def realizar_extrato_pessoa_juridica(id_pessoa):
     try:
         http_request = HttpRequest(params={ "id_pessoa": id_pessoa })
         view = realizar_extrato_pessoa_juridica_composer()
+
+        http_response = view.handle(http_request)
+
+        return jsonify(http_response.body), http_response.status_code
+    except Exception as exception:
+        http_response = handle_errors(exception)
+        return jsonify(http_response.body), http_response.status_code
+
+
+@pessoa_juridica_route_bp.route("/pessoas_juridicas/<id_pessoa>/sacar", methods=["PUT"])
+def sacar_dinheiro_pessoa_juridica(id_pessoa):
+    try:
+        http_request = HttpRequest(body=request.json, params={ "id_pessoa": id_pessoa })
+        view = sacar_dinheiro_pessoa_juridica_composer()
 
         http_response = view.handle(http_request)
 
