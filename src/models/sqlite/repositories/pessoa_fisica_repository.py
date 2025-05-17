@@ -96,4 +96,8 @@ class PessoaFisicaRepository(PessoaFisicaRepositoryInterface):
                              )
                              .first())
 
-            return pessoa_fisica
+            if pessoa_fisica:
+                return f"Nome Completo: {pessoa_fisica.nome_completo}," + \
+                f" Categoria: {pessoa_fisica.categoria}, Saldo: {pessoa_fisica.saldo}"
+
+            return "Nenhum extrato disponível"

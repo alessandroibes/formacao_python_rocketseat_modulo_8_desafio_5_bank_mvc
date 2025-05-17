@@ -98,4 +98,8 @@ class PessoaJuridicaRepository(PessoaJuridicaRepositoryInterface):
                              )
                              .first())
 
-            return pessoa_juridica
+            if pessoa_juridica:
+                return f"Nome Fantasia: {pessoa_juridica.nome_fantasia}," + \
+                f" Categoria: {pessoa_juridica.categoria}, Saldo: {pessoa_juridica.saldo}"
+
+            return "Nenhum extrato disponível"

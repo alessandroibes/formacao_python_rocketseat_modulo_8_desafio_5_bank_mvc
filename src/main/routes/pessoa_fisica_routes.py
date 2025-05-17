@@ -6,6 +6,9 @@ from src.main.composer.criar_pessoa_fisica_composer import criar_pessoa_fisica_c
 from src.main.composer.consultar_saldo_pessoa_fisica_composer import (
     consultar_saldo_pessoa_fisica_composer
 )
+from src.main.composer.realizar_extrato_pessoa_fisica_composer import (
+    realizar_extrato_pessoa_fisica_composer
+)
 from src.views.http_types.http_request import HttpRequest
 
 
@@ -44,6 +47,20 @@ def consultar_saldo_pessoa_fisica(id_pessoa):
     try:
         http_request = HttpRequest(params={ "id_pessoa": id_pessoa })
         view = consultar_saldo_pessoa_fisica_composer()
+
+        http_response = view.handle(http_request)
+
+        return jsonify(http_response.body), http_response.status_code
+    except Exception as exception:
+        http_response = handle_errors(exception)
+        return jsonify(http_response.body), http_response.status_code
+
+
+@pessoa_fisica_route_bp.route("/pessoas_fisicas/<id_pessoa>/extrato", methods=["GET"])
+def realizar_extrato_pessoa_fisica(id_pessoa):
+    try:
+        http_request = HttpRequest(params={ "id_pessoa": id_pessoa })
+        view = realizar_extrato_pessoa_fisica_composer()
 
         http_response = view.handle(http_request)
 
